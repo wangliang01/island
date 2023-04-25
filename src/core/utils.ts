@@ -51,3 +51,32 @@ export function generateToken(uid: string, scope: string | number) {
   })
   return token
 }
+
+const net = require('net');
+
+export function portIsFree(port: number) {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.once('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        resolve(false);
+      } else {
+        reject(err);
+      }
+    });
+    server.once('listening', () => {
+      server.close();
+      resolve(true);
+    });
+    server.listen(port);
+  });
+}
+
+export function getFreePort(port: number) {
+  return new Promise(async (resolve, reject) => {
+    while(!await portIsFree(port)) {
+      port++;
+    }
+    resolve(port);
+  });
+}

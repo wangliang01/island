@@ -8,12 +8,12 @@ const router = new Router({
 
 
 router.get('/book', async (ctx, next) => {
-  new WangValidaotr(ctx).validate()
+  // new WangValidaotr(ctx).validate()
 
   // throw new ParameterException('参数错误')
-  // ctx.body = {
-  //   key: 'book'
-  // }
+  ctx.body = {
+    key: 'book'
+  }
 })
 
 export default {
