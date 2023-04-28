@@ -1,11 +1,11 @@
-import { Auth } from './../../middleware/auth';
-import { LoginType } from './../../config/enum';
-import { Success, ParameterException } from './../../core/http-exception';
+import { Auth } from './../../middleware/auth'
+import { LoginType } from './../../config/enum'
+import { Success, ParameterException } from './../../core/http-exception'
 import Router from 'koa-router'
-import { RegisterValidator, TokenValidator } from './../../validator/index';
-import User from '../../model/user';
-import { generateToken } from '../../core/utils';
-import { Values } from 'async-validator';
+import { RegisterValidator, TokenValidator } from './../../validator/index'
+import User from '../../model/user'
+import { generateToken } from '../../core/utils'
+// import { Values } from 'async-validator'
 
 const router = new Router({
   prefix: '/v1'
@@ -14,7 +14,7 @@ const router = new Router({
 /**
  * 用户注册
  */
-router.post('/user/register', async(ctx) => {
+router.post('/user/register', async (ctx) => {
   const v = await new RegisterValidator(ctx).validate()
 
   const user = {
@@ -30,22 +30,22 @@ router.post('/user/register', async(ctx) => {
 /**
  * 获取token
  */
-router.post('/user/token', async ctx => {
-  const v = await new TokenValidator(ctx).validate() as Values
-  let token
+router.post('/user/token', async (ctx) => {
+  const v = await new TokenValidator(ctx).validate()
 
-  const type = v?.type 
-  switch(type) {
+  if (!v) return
+  let token, user
+
+  const type = v?.type
+  switch (type) {
     case LoginType.USER_MINI_PROGRAM:
       throw new ParameterException('该方法尚未实现')
-      break;
     case LoginType.USER_EMAIL:
-      const user = await User.verifyEmailPassword(v.account, v.password)
+      user = await User.verifyEmailPassword(v.account, v.password)
       token = generateToken(user.id, Auth.USER)
-      break;
+      break
     case LoginType.USER_MOBILE:
       throw new ParameterException('该方法尚未实现')
-      break;
     default:
       throw new ParameterException('没有相应的处理函数')
   }
@@ -54,6 +54,5 @@ router.post('/user/token', async ctx => {
     token
   }
 })
-
 
 export default router

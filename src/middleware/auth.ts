@@ -1,8 +1,4 @@
-import jwt, {
-  JsonWebTokenError,
-  TokenExpiredError,
-  JwtPayload
-} from 'jsonwebtoken'
+import jwt, { TokenExpiredError, JwtPayload } from 'jsonwebtoken'
 import { Forbbiden } from './../core/http-exception'
 import { Next, Context } from './../types/index'
 import basicAuth from 'basic-auth'
@@ -21,18 +17,12 @@ export class Auth {
     return async function (ctx: Context, next: Next) {
       const userToken = basicAuth(ctx.req)
       let errMsg = 'token不合法'
-      let result 
+      let result
       if (!userToken || !userToken.name) {
         throw new Forbbiden()
       }
       try {
-        result = jwt.verify(
-          userToken.name,
-          process.env.PRIVATE_KEY as string
-        ) as JwtPayload
-
-       
-
+        result = jwt.verify(userToken.name, process.env.PRIVATE_KEY as string) as JwtPayload
       } catch (error) {
         console.log(error)
         if (error instanceof TokenExpiredError) {

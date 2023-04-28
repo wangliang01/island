@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize'
 
 export const sequelize = new Sequelize(process.env.DATABASE as string, process.env.USER as string, process.env.PASSWORD as string, {
   dialect: 'mysql',

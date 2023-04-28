@@ -1,4 +1,4 @@
-import { ParameterException } from './../core/http-exception';
+import { ParameterException } from './../core/http-exception'
 import { Model, DataTypes } from 'sequelize'
 import { sequelize } from '../core/db'
 import bcrypt from 'bcryptjs'
@@ -25,32 +25,34 @@ class User extends Model {
   }
 }
 
+User.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    nickname: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING(128),
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      set(val: string) {
+        const salt = bcrypt.genSaltSync(10)
 
-User.init({
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  nickname: DataTypes.STRING,
-  email: {
-    type: DataTypes.STRING(128),
-    unique: true
-  },
-  password: {
-    type: DataTypes.STRING,
-    set(val: string) {
-      const salt = bcrypt.genSaltSync(10)
+        const pwd = bcrypt.hashSync(val, salt)
 
-      const pwd = bcrypt.hashSync(val, salt)
-
-      this.setDataValue('password', pwd)
+        this.setDataValue('password', pwd)
+      }
+    },
+    openid: {
+      type: DataTypes.STRING(64),
+      unique: true
     }
   },
-  openid: {
-    type: DataTypes.STRING(64),
-    unique: true
-  }
-}, {sequelize, tableName: 'user'})
+  { sequelize, tableName: 'user' }
+)
 
 export default User

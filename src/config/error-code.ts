@@ -104,8 +104,7 @@ public enum BaseResultCode implements IResultCode {
 }
  */
 
-
-export enum errorCode  {
+export enum errorCode {
   SUCCESS = '00200',
   FAILURE = '00400',
   UN_AUTHORIZED = '00401',
@@ -117,9 +116,8 @@ export enum errorCode  {
   PARAM_BIND_ERROR = '00412',
   PARAM_VALID_ERROR = '00413',
   MEDIA_TYPE_NOT_SUPPORTED = '00415',
-  INTERNAL_SERVER_ERROR = '00500',
+  INTERNAL_SERVER_ERROR = '00500'
 }
-
 
 export enum errorMsg {
   SUCCESS = '操作成功',
@@ -133,5 +131,5 @@ export enum errorMsg {
   PARAM_MISS = '缺少必要的请求参数',
   PARAM_TYPE_ERROR = '请求参数类型错误',
   PARAM_BIND_ERROR = '请求参数绑定错误',
-  PARAM_VALID_ERROR = '参数校验失败',
+  PARAM_VALID_ERROR = '参数校验失败'
 }

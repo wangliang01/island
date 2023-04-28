@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 
-const argv = process.argv 
+const argv = process.argv
 
 const mode = argv[2] === '--mode' ? argv[3] : ''
 

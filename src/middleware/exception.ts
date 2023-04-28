@@ -1,6 +1,6 @@
-import { errorCode, errorMsg } from './../config/error-code';
-import { HttpException } from './../core/http-exception';
-import { Context, Next } from './../types/index';
+import { errorCode, errorMsg } from './../config/error-code'
+import { HttpException } from './../core/http-exception'
+import { Context, Next } from './../types/index'
 export async function catchError(ctx: Context, next: Next) {
   try {
     await next()
@@ -10,11 +10,10 @@ export async function catchError(ctx: Context, next: Next) {
       ctx.body = {
         errorCode: error.errorCode,
         msg: error.msg,
-        request: `${ctx.method} ${ctx.path}` 
+        request: `${ctx.method} ${ctx.path}`
       }
 
       ctx.status = error.code
-
     } else {
       // 未知错误
       if (process.env.NODE_ENV === 'development') {
@@ -24,13 +23,11 @@ export async function catchError(ctx: Context, next: Next) {
         ctx.body = {
           errorCode: errorCode.INTERNAL_SERVER_ERROR,
           msg: errorMsg.INTERNAL_SERVER_ERROR,
-          request: `${ctx.method} ${ctx.path}` 
+          request: `${ctx.method} ${ctx.path}`
         }
 
         ctx.status = 500
       }
     }
-
-
   }
 }
